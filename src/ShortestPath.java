@@ -31,7 +31,7 @@ public class ShortestPath {
 
             if (currentDist > dist[node]) continue;
 
-            for (Edge edge : graph.getOrDefault(node, new ArrayList<>())) {
+            for (Edge edge : graph.getOrDefault(node, Collections.emptyList())) {
                 int newDist = currentDist + edge.cost;
                 if (newDist < dist[edge.destination]) {
                     dist[edge.destination] = newDist;
@@ -50,12 +50,13 @@ public class ShortestPath {
             for (int t = 0; t < tests; t++) {
                 // Skip empty lines between tests
                 String line;
-                while ((line = reader.readLine()) != null && line.trim().isEmpty()) {
-                    // Skip empty lines
-                }
+                while ((line = reader.readLine()) != null && line.trim().isEmpty()) {}
 
                 // Read number of cities
-                int citiesCount = Integer.parseInt(line.trim());
+                int citiesCount = 0;
+                if (line != null) {
+                    citiesCount = Integer.parseInt(line.trim());
+                }
                 Map<String, Integer> cityIndex = new HashMap<>();
                 Map<Integer, List<Edge>> graph = new HashMap<>();
 
@@ -82,7 +83,7 @@ public class ShortestPath {
                     String endCity = pathData[1];
 
                     if (!cityIndex.containsKey(startCity) || !cityIndex.containsKey(endCity)) {
-                        output.append("-1").append("\n");
+                        output.append("-1\n");
                         continue;
                     }
 
